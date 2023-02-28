@@ -1,22 +1,38 @@
-import NavBar from './Components/NavBar';
-import ItemListContainer from './Components/ItemListContainer';
-import About from './Pages/About';
-import ItemDetailContainer from './Pages/ItemDetailContainer';
+import NavBar from "./components/NavBar";
+import ItemListContainer from "./components/ItemListContainer";
+import ItemDetailContainer from "./Pages/ItemDetailContainer";
+import Checkout from "./Pages/Checkout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createContext, useState } from "react";
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+export const ContextCart = createContext("");
 
 const App = () => {
+  /*
+  const [cart, setCart] = useState({
+    value: 10 
+  });
+  */
+  const [cart, setCart] = useState([
+    /*{
+      id: 'LyMaQIAeLdGItQs61zV2',
+      artist: 'jungle'
+    }*/
+  ]);
+
   return (
-	  <BrowserRouter>
-	  	<NavBar />
-		<Routes>
-			<Route path="/" element={<ItemListContainer />} />
-			<Route path='/category/:id' element={<ItemListContainer />} />
-			<Route path='/item/:id' element={<ItemDetailContainer />} />
-			<Route path="/about" element={<About />} />
-		</Routes>
-	  </BrowserRouter>
+    <ContextCart.Provider value={{cart, setCart}}>
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<ItemListContainer />} />
+          <Route path="/category/:categoryId" element={<ItemListContainer />} />
+          <Route path="/item/:itemId" element={<ItemDetailContainer />} />
+          <Route path="/cart" element={<Checkout />} />
+        </Routes>
+      </BrowserRouter>
+    </ContextCart.Provider>
   );
-}
+};
 
 export default App;
