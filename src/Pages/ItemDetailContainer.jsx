@@ -41,12 +41,13 @@ const ItemDetail = () => {
         const newAlbum = {...cartAlbum};
         if (cartAlbum.id === album.id) {
           newAlbum.quantity += numItems;
+          newAlbum.total = newAlbum.quantity * newAlbum.price;
         }
         newArr.push(newAlbum);
       });
       setCart(newArr);
     } else {
-      setCart([...cart, {...album, quantity: numItems}]);
+      setCart([...cart, {...album, quantity: numItems, total: numItems * album.price}]);
     }
   };
 
