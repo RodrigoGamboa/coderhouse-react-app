@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Item = (props) => {
-    const { id, title, artist, description, price, pictureUrl } = props;
+    const { id, title, artist, pictureUrl } = props;
 
     return (
         <>
@@ -10,8 +10,6 @@ const Item = (props) => {
                     <img src={pictureUrl} alt="" />
                     <h1>{artist}</h1>
                     <h2>{title}</h2>
-                    <p>{description}</p>
-                    <p>{price}</p>
                 </div>
             </Link>
             <style>{`

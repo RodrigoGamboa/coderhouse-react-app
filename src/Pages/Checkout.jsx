@@ -42,7 +42,7 @@ const Checkout = () => {
         <>
         {
             cart && cart.map(albumToBuy => (
-                <div>
+                <div key={albumToBuy.id}>
                     <h1>{albumToBuy.title} x {albumToBuy.quantity} x {albumToBuy.price} = {albumToBuy.total}</h1>
                 </div>
             ))
