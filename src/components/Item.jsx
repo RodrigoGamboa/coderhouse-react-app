@@ -10,6 +10,8 @@ const Item = (props) => {
                     <img src={pictureUrl} alt="" />
                     <h1>{artist}</h1>
                     <h2>{title}</h2>
+                    <p>{description}</p>
+                    <p>{price}</p>
                 </div>
             </Link>
             <style>{`

@@ -2,12 +2,15 @@ import CartWidget from "./CartWidget";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ContextCart } from "../App";
+import Dropdown from "./Dropdown";
 
 const NavBar = () => {
   const { cart } = useContext(ContextCart);
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <Link to="/">Vinyl Store</Link>
+      <Dropdown />
+      {/*
       <ul className="flex">
         <li className="mr-6">
           <Link
@@ -39,6 +42,10 @@ const NavBar = () => {
           </Link>
         </li>
       </ul>
+  */}
+   <Link to="/cart">
+            <CartWidget itemQ={cart} />
+          </Link>
     </nav>
   );
 };

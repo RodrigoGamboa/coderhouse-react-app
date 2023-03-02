@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ContextCart } from "../App";
 import { serviceAlbums } from "../services/albums";
 
@@ -10,13 +10,17 @@ const ItemDetail = () => {
   const [loading, setLoading] = useState(true);
   const { cart } = useContext(ContextCart);
   const { setCart } = useContext(ContextCart);
+  const navigate = useNavigate();
 
   useEffect(() => {
     serviceAlbums.getAlbum(itemId).then(album => {
+      if (Object.keys(album).length === 0) {
+        navigate("/404")
+      }
       setAlbum(album);
       setLoading(false);
     });
-  }, [itemId]);
+  }, [itemId, navigate]);
 
   const handleBtn = (state) => {
     if (state === "-") {

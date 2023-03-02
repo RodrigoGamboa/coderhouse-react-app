@@ -17,12 +17,15 @@ const getAlbums = async categoryId => {
 };
 
 const getAlbum = async itemId => {
+    let album = {};
     const albumDocumentRef = doc(db, 'albums', itemId);
     const document = await getDoc(albumDocumentRef);
-    const album = {
+    if (document.exists()) {
+        album = {
         ...document.data(), 
         id: document.id
-    };
+    }
+    }
     return album;
 };
 
