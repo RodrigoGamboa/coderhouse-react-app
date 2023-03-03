@@ -54,6 +54,17 @@ const Checkout = () => {
     });
   };
 
+  const copyOrderId = () => {
+    navigator.clipboard.writeText(orderFeedbackInfo.id).then(
+        () => {
+            // FIXME: Add toaster msg that the id was copied!
+        },
+        () => {
+            /* clipboard write failed */
+    }
+);
+  };
+
   return (
     <div className="flex justify-center">
         <div className="w-1/3">
@@ -148,6 +159,7 @@ const Checkout = () => {
             <p>Phone: {buyer.phone}</p>
             <p>Email: {buyer.email}</p>
             <p>Your order id is: {orderFeedbackInfo.id}</p>
+            <button onClick={copyOrderId}>Copy to clipboard!</button>
             <p>Your order was placed on: {orderFeedbackInfo.date}</p>
         </div>
     </div>
