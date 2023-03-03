@@ -1,25 +1,26 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextCart } from "../App";
+import { serviceAlbums } from "../services/albums";
 import { serviceOrders } from "../services/orders";
 
 const Checkout = () => {
   const { cart } = useContext(ContextCart);
   const { setCart } = useContext(ContextCart);
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  
   const [orderFeedbackInfo, setOrderFeedbackInfo] = useState({
     status: 'unfulfilled',
     id: null,
     date: null,
   });
-
+  
   const [buyer, setBuyer] = useState({
     name: "",
     phone: "",
     email: "",
     confirmEmail: ""
   });
-  const [totalPrice, setTotalPrice] = useState(0);
-
+  
   useEffect(() => {
     setTotalPrice(cart.reduce((a, c) => a + c.total, 0));
   }, [cart]);
@@ -47,10 +48,35 @@ const Checkout = () => {
       total: totalPrice,
       date: todayUTC
     };
-    serviceOrders.addOrder(order).then(orderId => {
-        setOrderFeedbackInfo({ status: 'pending', id: orderId, date: todayUTC });
+    /*
+    serviceAlbums.checkInventory(order.items).then(availableResult => {
+        console.log(availableResult.itemsNotAvailable)
+        if (availableResult.itemsNotAvailable === 0) {
+            //addOrder(order);
+        }
     });
+    */
+    /*
+    const result = await order.items.filter(item => {
+    serviceAlbums.checkInventory(item.id, item.quantity).then(availability => {
+        if (availability) {
+            //addOrder(order);
+            //console.log('availability: ', order.items.find(album => album.id === item.id));
+            //setAvailabilityItems(oldArray => [...oldArray, order.items.find(album => album.id === item.id)]);
+            console.log(item)
+            return item;
+        } 
+    });
+   });
+   console.log(result);
   };
+
+  const addOrder = order => {
+    serviceOrders.addOrder(order).then(orderId => {
+        setOrderFeedbackInfo({ status: 'pending', id: orderId, date: order.todayUTC });
+    });
+*/
+  }
 
   const copyOrderId = () => {
     navigator.clipboard.writeText(orderFeedbackInfo.id).then(

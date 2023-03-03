@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { getDoc, getDocs, doc, collection } from 'firebase/firestore';
+import { getDoc, getDocs, doc, collection, setDoc } from 'firebase/firestore';
 
 const getAlbums = async categoryId => {
     const albumsCollectionRef = collection(db, 'albums');
@@ -29,4 +29,40 @@ const getAlbum = async itemId => {
     return album;
 };
 
-export const serviceAlbums = { getAlbum, getAlbums };
+async function checkInventory (itemId, itemQuantity) {
+    console.log(itemId, itemQuantity)
+    const album = await getAlbum(itemId);
+    if (album.stock >= itemQuantity) {
+        modifyInventory(itemId, album.stock - itemQuantity);
+        return true;
+    } else {
+        return false;
+    }
+}
+/*
+const checkInventory = async cart => {
+    const result = {
+        availability: [],
+        itemsNotAvailable: 0
+    }
+    cart.forEach(itemCart => {
+        getAlbum(itemCart.id).then(album => {
+            if (album.stock >= itemCart.quantity) {
+                result.availability.push({id: itemCart.id, available: true});
+                modifyInventory(itemCart.id, album.stock - itemCart.quantity);
+            }
+            else {
+                result.itemsNotAvailable = 10
+                result.availability.push({id: itemCart.id, available: false});
+            }
+        })
+    });
+    return result;
+}
+*/
+const modifyInventory = async (albumId, newStock) => {
+   const albumDocumentRef = doc(db, 'albums', albumId);
+   setDoc(albumDocumentRef, { stock: newStock }, { merge: true });
+}
+
+export const serviceAlbums = { getAlbum, getAlbums, checkInventory };

@@ -30,8 +30,7 @@ const ItemDetail = () => {
       return;
     }
     if (state === "+") {
-      // FIXME: Replace this conditional value when we have a limit (inventory) of numItems for each product
-      if (numItems < 10) {
+      if (numItems < album.stock) {
         setNumItems(numItems + 1);
       }
       return;
@@ -56,20 +55,27 @@ const ItemDetail = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <div>
+    <div className="flex justify-center">
+      <div className="w-1/4">
         <h1>{album.artist}</h1>
         <h2>{album.title}</h2>
-        <img src={album.pictureUrl} alt="" />
+        <img src={album.pictureUrl} className="w-96" alt="" />
+        <p>{album.description}</p>
       </div>
-      <div>
-        <button onClick={() => handleBtn("-")} disabled={numItems === 0}>
-          -
+      <div className="w-1/4 flex flex-col justify-center align-center">
+        {album.stock && <p>{album.stock} items of this product available</p>}
+        {!album.stock && <p>This product is currently out of stock!</p>}
+        <div>
+          <button onClick={() => handleBtn("-")} disabled={numItems === 0}>-</button>
+          <span>{numItems}</span>
+          <button onClick={() => handleBtn("+")}>+</button>
+        </div>
+        <button onClick={() => handleBuy()} disabled={numItems === 0}
+          className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add to Cart
         </button>
-        <span>{numItems}</span>
-        <button onClick={() => handleBtn("+")}>+</button>
       </div>
-      <button onClick={() => handleBuy()} disabled={numItems === 0}>Add to Cart</button>
 
       {loading && (
         <button type="button" className="bg-black-500 ..." disabled>
