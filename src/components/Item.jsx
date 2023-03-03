@@ -6,10 +6,13 @@ const Item = (props) => {
     return (
         <>
             <Link to={`/item/` + id}>
-                <div className='img'>
-                    <img src={pictureUrl} alt="" />
-                    <h1>{artist}</h1>
-                    <h2>{title}</h2>
+                <div class="relative overflow-hidden shadow-lg cursor-pointer">
+                    <img class="object-cover w-72 h-72 hover:scale-150" src={pictureUrl} alt=""/>
+                    <div class="absolute w-full h-full opacity-0 hover:opacity-100 top-0 left-0 flex flex-col justify-center align-center">
+                        <div class="absolute w-full h-full opacity-20 bg-gray-200"></div>
+                        <h4 class="mb-3 text-xl font-semibold tracking-tight text-white">{artist}</h4>
+                        <p class="leading-normal text-gray-100">{title}</p>
+                    </div>
                 </div>
             </Link>
             <style>{`
