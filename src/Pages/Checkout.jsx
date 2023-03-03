@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ContextCart } from "../App";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { serviceOrders } from "../services/orders";
 
 const Checkout = () => {
   const { cart } = useContext(ContextCart);
@@ -45,12 +45,10 @@ const Checkout = () => {
       buyer,
       items: cart,
       total: totalPrice,
-      date: today.toUTCString(),
+      date: todayUTC
     };
-    const db = getFirestore();
-    const ordersCollection = collection(db, "orders");
-    addDoc(ordersCollection, order).then(({ id }) => {
-      setOrderFeedbackInfo({ status: 'pending', id: id, date: todayUTC });
+    serviceOrders.addOrder(order).then(orderId => {
+        setOrderFeedbackInfo({ status: 'pending', id: orderId, date: todayUTC });
     });
   };
 

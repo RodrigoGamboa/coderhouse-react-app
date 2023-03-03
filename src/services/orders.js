@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, collection, addDoc } from 'firebase/firestore';
 
 const getOrder = async orderId => {
     const orderDocumentRef = doc(db, 'orders', orderId);
@@ -11,4 +11,13 @@ const getOrder = async orderId => {
     return {};
 };
 
-export const serviceOrders = { getOrder };
+const addOrder = async order => {
+    const ordersCollectionRef = collection(db, 'orders');
+    const document = await addDoc(ordersCollectionRef, order);
+    if (document.id) { 
+        return document.id;
+    }
+    return null;
+}
+
+export const serviceOrders = { getOrder, addOrder };
