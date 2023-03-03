@@ -22,9 +22,9 @@ const getAlbum = async itemId => {
     const document = await getDoc(albumDocumentRef);
     if (document.exists()) {
         album = {
-        ...document.data(), 
-        id: document.id
-    }
+            ...document.data(), 
+            id: document.id
+        };
     }
     return album;
 };

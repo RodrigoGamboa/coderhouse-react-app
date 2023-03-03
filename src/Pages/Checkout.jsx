@@ -44,7 +44,7 @@ const Checkout = () => {
     const order = {
       buyer,
       items: cart,
-      total: 100,
+      total: totalPrice,
       date: today.toUTCString(),
     };
     const db = getFirestore();
@@ -61,8 +61,8 @@ const Checkout = () => {
         },
         () => {
             /* clipboard write failed */
-    }
-);
+        }
+    );
   };
 
   return (
@@ -75,9 +75,10 @@ const Checkout = () => {
                         <p>{albumToBuy.artist} - {albumToBuy.title} x {albumToBuy.quantity} x {albumToBuy.price} ={" "} {albumToBuy.total}
                         </p>
                     </div>
-                    <p>Total: {totalPrice}</p>
+                    
                 </div>
             ))}
+            <p>Total: {totalPrice}</p>
             {cart.length === 0 && <p>You don't have items in your cart yet!</p>}
         </div>
         <form className="w-1/3">
