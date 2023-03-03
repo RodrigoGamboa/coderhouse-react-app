@@ -9,17 +9,7 @@ import { createContext, useState } from "react";
 export const ContextCart = createContext("");
 
 const App = () => {
-  /*
-  const [cart, setCart] = useState({
-    value: 10 
-  });
-  */
-  const [cart, setCart] = useState([
-    /*{
-      id: 'LyMaQIAeLdGItQs61zV2',
-      artist: 'jungle'
-    }*/
-  ]);
+  const [cart, setCart] = useState([]);
 
   return (
     <ContextCart.Provider value={{ cart, setCart }}>
