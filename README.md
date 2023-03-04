@@ -1,3 +1,8 @@
+
+# Table of contents
+1. [Test 1](#test1)
+2. [Test 2](#test2)
+3. [Test 3](#test3)
 # Proyecto final del curso React JS de Coderhouse
 
 Proyecto: [HiddenRecords - CoderHouse](https://hiddenrecords.netlify.app/)
@@ -75,3 +80,10 @@ mismo valores.
 #### Formulario del usuario
 
 ### Buscar orden de compra
+
+
+
+
+
+
+## This is test 1 <a name="test1"></a>
