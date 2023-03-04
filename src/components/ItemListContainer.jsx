@@ -15,7 +15,7 @@ const ItemListContainer = () => {
 
   return (
     <div>
-      {categoryId && <h1>{categoryId.toUpperCase()}</h1>}
+      {categoryId && <h1 className="text-center m-10 text-2xl">{categoryId.toUpperCase()}</h1>}
       <div className="flex flex-wrap justify-center">
         {
           albums && albums.map(album => (
