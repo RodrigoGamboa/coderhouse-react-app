@@ -34,22 +34,14 @@ const checkInventory = async items => {
     available: {},
     notAvailable: {}
    };
-  /*
-   let inventoryResult = {
-    available: [],
-    notAvailable: []
-   }
-   */
    const albums = await getAlbums();
    albums.forEach(album => {
     items.forEach(itemFromCart => {
         if (album.id === itemFromCart.id) {
             if (album.stock >= itemFromCart.quantity) {
                 inventoryResult.available[album.id] = {...album}
-                //inventoryResult.available.push({[album.id]: {...album}})
             } else {
                 inventoryResult.notAvailable[album.id] = {...album}
-                //inventoryResult.notAvailable.push({[album.id]: {...album}})
             }
         }
     })
