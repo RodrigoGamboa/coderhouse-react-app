@@ -8,6 +8,7 @@ const OrderTracker = () => {
     const searchOrder = event => {
         event.preventDefault();
         serviceOrders.getOrder(inputOrder).then(order => {
+            console.log(order)
             setOrder(order);
         }).catch(error => {
             console.log(error);
@@ -44,7 +45,7 @@ const OrderTracker = () => {
                 <h2>The order was placed: {order.date}</h2>
                 <h2>Total: {order.total}</h2>
                 {order.items && order.items.map(item => (
-                    <h1 key={item.id}>{item.artist} - {item.title} x {item.quantity}</h1>
+                    <h1 key={item.id}>{item.album_data.artist} - {item.album_data.title} x {item.quantity}</h1>
                 ))}
             </div>
         </>    
