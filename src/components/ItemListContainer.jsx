@@ -14,16 +14,16 @@ const ItemListContainer = () => {
   }, [categoryId]);
 
   return (
-    <>
+    <div>
       {categoryId && <h1>{categoryId.toUpperCase()}</h1>}
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div className="flex flex-wrap justify-center">
         {
           albums && albums.map(album => (
             <Item key={album.id} {...album} />
           ))
         }
       </div>
-    </>
+    </div>
   );
 };
 
