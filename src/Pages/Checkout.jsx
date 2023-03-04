@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { ContextCart } from "../App";
 import { serviceAlbums } from "../services/albums";
 import { serviceOrders } from "../services/orders";
+import { ClipboardDocumentIcon } from '@heroicons/react/24/solid';
+
 
 const Checkout = () => {
   const { cart } = useContext(ContextCart);
@@ -233,12 +235,20 @@ const Checkout = () => {
             : "bg-zinc-200"
         }`}
       >
-        <h1>Your boucher</h1>
+        <h1>Preview of your order</h1>
         <p>Name: {buyer.name}</p>
         <p>Phone: {buyer.phone}</p>
         <p>Email: {buyer.email}</p>
-        <p>Your order id is: {orderFeedbackInfo.id}</p>
-        <button onClick={copyOrderId}>Copy to clipboard!</button>
+        <p>
+          Your order id is: {orderFeedbackInfo.id}
+          {orderFeedbackInfo.id &&
+            <span>
+              <button onClick={copyOrderId}>
+                <ClipboardDocumentIcon className='h-6 w-6 mr-2 text-blue-500' />
+              </button>
+            </span>
+          }
+        </p>
         <p>Your order was placed on: {orderFeedbackInfo.date}</p>
       </div>
     </div>
