@@ -68,13 +68,13 @@ const ItemDetail = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-10 gap-10">
       {album.album_data &&
         <div className="w-1/4">
+          <img src={album.album_data.picture_url} className="w-100" alt="" />
+          <h2 className="text-2xl mt-3">{album.album_data.title}</h2>
           <h1>{album.album_data.artist}</h1>
-          <h2>{album.album_data.title}</h2>
-          <img src={album.album_data.picture_url} className="w-96" alt="" />
-          <p>{album.album_data.description}</p>
+          <p className="text-sm mt-5">{album.album_data.description}</p>
         </div>
       }
       <div className="w-1/4 flex flex-col justify-center align-center">
@@ -87,12 +87,12 @@ const ItemDetail = () => {
           <button onClick={() => handleBtn("+")}>+</button>
         </div>
         <button onClick={() => handleBuy()} disabled={numItems === 0 || currentNumItemsCart >= album.stock}
-          className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 disabled:bg-gray-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Add to Cart
         </button>
       </div>
-
+{/*
       {loading && (
         <button type="button" className="bg-black-500 ..." disabled>
           <svg
@@ -121,6 +121,7 @@ const ItemDetail = () => {
             }
         `}
       </style>
+*/}
     </div>
   );
 };

@@ -97,8 +97,8 @@ const Checkout = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/3">
+    <div className="flex justify-center mt-10 mx-5">
+      <div className="w-1/3 p-10">
         {cart &&
           cart.map((albumToBuy) => (
             <div key={albumToBuy.id}>
@@ -116,8 +116,8 @@ const Checkout = () => {
               </div>
             </div>
           ))}
-        <p>Total: {totalPrice}</p>
-        {itemsNotAvailable && <h1>Items Not available</h1>}
+        {cart.length !== 0 && <p>Total: {totalPrice}</p>}
+        {cart.length !== 0 && itemsNotAvailable && <h1>Items Not available</h1>}
         {
             itemsNotAvailable &&
             itemsNotAvailable.map((albumToBuy) => (
@@ -138,9 +138,9 @@ const Checkout = () => {
 
             ))
         }
-        {cart.length === 0 && <p>You don't have items in your cart yet!</p>}
+        {cart.length === 0 && <p>You don't have items available in your cart yet!</p>}
       </div>
-      <form className="w-1/3">
+      <form className="w-1/3 p-10">
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -157,7 +157,7 @@ const Checkout = () => {
               placeholder="Wendy Carlos"
               disabled={cart.length === 0}
               required
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-red-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
           <div>
@@ -175,7 +175,7 @@ const Checkout = () => {
               placeholder="99999999"
               disabled={cart.length === 0}
               required
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-red-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
           <div>
@@ -193,7 +193,7 @@ const Checkout = () => {
               placeholder="john@doe@company.com"
               disabled={cart.length === 0}
               required
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-red-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
           <div>
@@ -213,26 +213,27 @@ const Checkout = () => {
               placeholder="john@doe@company.com"
               disabled={!buyer.email || cart.length === 0}
               required
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-red-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
         </div>
         <button
           type="submit"
           onClick={sendOrder}
-          className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 disabled:bg-gray-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email || cart.length === 0}
         >
           Send Order!
         </button>
       </form>
       <div
-        className={`w-1/3 ${
+        className={`w-1/3 p-10 rounded-lg ${
           orderFeedbackInfo.status === "pending"
             ? "bg-green-300"
             : "bg-zinc-200"
         }`}
       >
+        <h1>Your boucher</h1>
         <p>Name: {buyer.name}</p>
         <p>Phone: {buyer.phone}</p>
         <p>Email: {buyer.email}</p>

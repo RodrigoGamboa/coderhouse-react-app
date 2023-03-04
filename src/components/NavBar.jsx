@@ -9,8 +9,8 @@ import { TruckIcon } from '@heroicons/react/24/solid';
 const NavBar = () => {
   const { cart } = useContext(ContextCart);
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
-      <Link to="/">Vinyl Store</Link>
+    <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-6">
+      <Link to="/" className="text-white">Vinyl Store</Link>
       <div className="flex items-center gap-2.5">
         <Dropdown />
         <Link to="/tracker">
