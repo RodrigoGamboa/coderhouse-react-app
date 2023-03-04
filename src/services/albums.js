@@ -9,7 +9,7 @@ const getAlbums = async categoryId => {
         id: document.id
     }));
     if (categoryId) {
-        const albumsByCategory = albums.filter(album => album.genre.toLowerCase() === categoryId.toLowerCase());
+        const albumsByCategory = albums.filter(album => album.album_data.genre.toLowerCase() === categoryId.toLowerCase());
         return albumsByCategory;
     } else {
         return albums;
