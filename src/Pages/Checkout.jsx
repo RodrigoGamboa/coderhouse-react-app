@@ -7,6 +7,7 @@ const Checkout = () => {
   const { cart } = useContext(ContextCart);
   const { setCart } = useContext(ContextCart);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [itemsNotAvailable, setItemsNotAvailable] = useState([]);
 
   const [orderFeedbackInfo, setOrderFeedbackInfo] = useState({
     status: "unfulfilled",
@@ -48,19 +49,24 @@ const Checkout = () => {
       total: totalPrice,
       date: todayUTC,
     };
-    const isOrderAvailable = await checkInventory(order.items);
-    if (isOrderAvailable) {
+    const inventoryResult = await checkInventory(order.items);
+    if (Object.keys(inventoryResult.available).length > 0 &&
+        Object.keys(inventoryResult.notAvailable).length === 0) {
       addOrder(order);
       updateInventory(order.items);
     } else {
       // FIXME: Add toaster msg to inform the user for the next steps
-      // console.log('Hay items no disponibles');
+      const newCart = [...cart];
+      const resultItemsAvailable = newCart.filter(cartItem => inventoryResult.available[cartItem.id]);
+      const resultItemsNotAvailable = newCart.filter(cartItem => inventoryResult.notAvailable[cartItem.id]);
+      setItemsNotAvailable(resultItemsNotAvailable);
+      setCart(resultItemsAvailable);
     }
   };
 
   const checkInventory = async (orderItems) => {
     let result = await serviceAlbums.checkInventory(orderItems);
-    return result.notAvailable.length === 0;
+    return result;
   };
 
   const addOrder = (order) => {
@@ -111,6 +117,27 @@ const Checkout = () => {
             </div>
           ))}
         <p>Total: {totalPrice}</p>
+        {itemsNotAvailable && <h1>Items Not available</h1>}
+        {
+            itemsNotAvailable &&
+            itemsNotAvailable.map((albumToBuy) => (
+                <div key={albumToBuy.id}>
+                  <div className="flex">
+                    <img
+                      src={albumToBuy.album_data.picture_url}
+                      alt=""
+                      className="w-28"
+                    />
+                    <p>
+                      {albumToBuy.album_data.artist} - {albumToBuy.album_data.title}{" "}
+                      x {albumToBuy.quantity} x {albumToBuy.price} ={" "}
+                      {albumToBuy.total}
+                    </p>
+                  </div>
+                </div>
+
+            ))
+        }
         {cart.length === 0 && <p>You don't have items in your cart yet!</p>}
       </div>
       <form className="w-1/3">
@@ -194,7 +221,7 @@ const Checkout = () => {
           type="submit"
           onClick={sendOrder}
           className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          //disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email}
+          disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email || cart.length === 0}
         >
           Send Order!
         </button>
