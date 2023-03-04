@@ -11,7 +11,6 @@ const ItemDetail = () => {
   const { cart } = useContext(ContextCart);
   const { setCart } = useContext(ContextCart);
   const [currentNumItemsCart, setCurrentNumItemsCart] = useState(0);
-  const [imageComplete, setImageComplete] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,11 +67,6 @@ const ItemDetail = () => {
     setNumItems(0);
   };
 
-  const imageCompleteHandler = () => {
-    console.log('image cargadad')
-    setImageComplete(true);
-  };
-
   return (
     <div className="flex justify-center mt-10 gap-10">
       {loading &&
@@ -85,7 +79,7 @@ const ItemDetail = () => {
       }
       {!loading && album.album_data &&
         <div className="w-1/4">
-          <img onLoad={imageCompleteHandler} src={album.album_data.picture_url} className="w-100" alt="" />
+          <img src={album.album_data.picture_url} className="w-100" alt="" />
           <h2 className="text-2xl mt-3">{album.album_data.title}</h2>
           <h1>{album.album_data.artist}</h1>
           <p className="text-sm mt-5">{album.album_data.description}</p>
