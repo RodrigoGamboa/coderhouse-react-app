@@ -14,12 +14,12 @@ const ItemDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    cart.map(cartItem => {
+    cart.forEach(cartItem => {
       if (cartItem.id === itemId) {
         setCurrentNumItemsCart(cartItem.quantity);
       }
     })
-  }, [cart])
+  }, [cart, itemId])
 
   useEffect(() => {
     serviceAlbums.getAlbum(itemId).then(album => {

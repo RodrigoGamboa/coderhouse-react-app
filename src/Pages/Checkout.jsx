@@ -50,10 +50,11 @@ const Checkout = () => {
     };
     const isOrderAvailable = await checkInventory(order.items);
     if (isOrderAvailable) {
-      console.log("Todo disponible :)");
       addOrder(order);
+      updateInventory(order.items);
     } else {
-      console.log("No disponible :c");
+      // FIXME: Add toaster msg to inform the user for the next steps
+      // console.log('Hay items no disponibles');
     }
   };
 
@@ -70,6 +71,12 @@ const Checkout = () => {
         date: order.todayUTC,
       });
     });
+  };
+
+  const updateInventory = (orderItems) => {
+    orderItems.forEach(item => {
+        serviceAlbums.updateInventory(item.id, item.quantity);
+    })
   };
 
   const copyOrderId = () => {
