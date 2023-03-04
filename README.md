@@ -1,80 +1,77 @@
 # Proyecto final del curso React JS de Coderhouse
 
+Proyecto: [HiddenRecords - CoderHouse](https://hiddenrecords.netlify.app/)
 
+## Objetivo
 
+Desarrollar una app de un e-commerce para poder vender productos de un rubro a elección.
 
+## Modelado de datos
 
+## Procesos
 
+## Funcionalidades
 
+### Ver catálogo
 
+- Cuando se accede a la ruta *'/'* se visualizan todos los productos en forma de cuadrícula.
 
-# Getting Started with Create React App
+- Al hacer hover sobre los productos se despliega mayor información: nombre del albúm y nombre
+del artista.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Al hacer click sobre cualquier producto se redirecciona a la ruta *'/item/:id'*, en donde se puede
+ver el detalle del producto y realizar funciones como agregar al carrito.
 
-## Available Scripts
+### Ver detalle del producto
 
-In the project directory, you can run:
+#### Agregar al carrito
 
-### `npm start`
+### Ver detalle del carrito de compra
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Se accede a la ruta *'/cart'* clickeando el ícono de carrito de compra ubicado en el navbar.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- El carrito de compra está dividido en tres secciones:
 
-### `npm test`
+    1. Lista de productos del carrito de compra.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    2. Formulario de compra.
 
-### `npm run build`
+    3. Resumen de Orden de compra.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 1. Lista de productos del carrito de compra
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- En esta sección se encuentra la lista de productos seleccionados, con la cantidad y el precio
+total.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- En caso de que al realizar la validación de disponibilidad en el inventario, alguno(s) productos
+ya no se encuentren disponibles, se muestra un nuevo apartado con dichos productos.
 
-### `npm run eject`
+#### 2. Formulario de compra
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Cuanda haya al menos un producto en el carrito se activará la opción del formulario de compra,
+en donde el usuario tiene que ingresar sus datos (nombre, teléfono, correo y confirmar correo)
+para activar el botón de Realizar compra.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Los campos de correo y confirmar correo tienen una validación para verificar si contienen los
+mismo valores.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Al dar click al botón de Realizar compra, se ejecuta el siguiente proceso:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    1. Validación de disponibilidad de los productos en el inventario.
+    Esto se realiza revisando el stock de cada producto en Firebase.
 
-## Learn More
+    2. En caso de que todos los productos del carrito estén disponibles,
+    se procede a generar una orden de compra en Firebase. Esto regresa
+    un id de la orden de compra
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 3. Resumen de Orden de compra
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Cuando está en proceso de compra, se visualiza una vista previa de la orden de compra.
 
-### Code Splitting
+- Los campos se actualizan al momento en que usuario ingresa sus datos.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 
 
-### Analyzing the Bundle Size
+#### Formulario del usuario
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Buscar orden de compra
