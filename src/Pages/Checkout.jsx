@@ -2,8 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { ContextCart } from "../App";
 import { serviceAlbums } from "../services/albums";
 import { serviceOrders } from "../services/orders";
-import { ClipboardDocumentIcon } from '@heroicons/react/24/solid';
-
+import { ClipboardDocumentIcon } from "@heroicons/react/24/solid";
 
 const Checkout = () => {
   const { cart } = useContext(ContextCart);
@@ -52,17 +51,25 @@ const Checkout = () => {
       date: todayUTC,
     };
     const inventoryResult = await checkInventory(order.items);
-    if (Object.keys(inventoryResult.available).length > 0 &&
-        Object.keys(inventoryResult.notAvailable).length === 0) {
+    if (
+      Object.keys(inventoryResult.available).length > 0 &&
+      Object.keys(inventoryResult.notAvailable).length === 0
+    ) {
       addOrder(order);
       updateInventory(order.items);
+      setItemsNotAvailable([]);
     } else {
       // FIXME: Add toaster msg to inform the user for the next steps
       const newCart = [...cart];
-      const resultItemsAvailable = newCart.filter(cartItem => inventoryResult.available[cartItem.id]);
-      const resultItemsNotAvailable = newCart.filter(cartItem => inventoryResult.notAvailable[cartItem.id]);
+      const resultItemsAvailable = newCart.filter(
+        (cartItem) => inventoryResult.available[cartItem.id]
+      );
+      const resultItemsNotAvailable = newCart.filter(
+        (cartItem) => inventoryResult.notAvailable[cartItem.id]
+      );
       setItemsNotAvailable(resultItemsNotAvailable);
       setCart(resultItemsAvailable);
+      alert(`Sorry! It looks like some items from your cart are no longer available.\nWe updated you cart with the ones that are available in case you still want to buy them.`);
     }
   };
 
@@ -82,15 +89,16 @@ const Checkout = () => {
   };
 
   const updateInventory = (orderItems) => {
-    orderItems.forEach(item => {
-        serviceAlbums.updateInventory(item.id, item.quantity);
-    })
+    orderItems.forEach((item) => {
+      serviceAlbums.updateInventory(item.id, item.quantity);
+    });
   };
 
   const copyOrderId = () => {
     navigator.clipboard.writeText(orderFeedbackInfo.id).then(
       () => {
         // FIXME: Add toaster msg that the id was copied!
+        alert('Order id copied!')
       },
       () => {
         /* clipboard write failed */
@@ -104,43 +112,54 @@ const Checkout = () => {
         {cart &&
           cart.map((albumToBuy) => (
             <div key={albumToBuy.id}>
-              <div className="flex">
+              <div className="flex items-center">
                 <img
                   src={albumToBuy.album_data.picture_url}
                   alt=""
-                  className="w-28"
+                  className="w-28 h-28"
                 />
-                <p>
-                  {albumToBuy.album_data.artist} - {albumToBuy.album_data.title}{" "}
-                  x {albumToBuy.quantity} x {albumToBuy.price} ={" "}
-                  {albumToBuy.total}
-                </p>
+                <div className="grid grid-cols-4 gap-4 align-items-center">
+                  <p className="m-auto">
+                    {albumToBuy.album_data.artist} -{" "}
+                    {albumToBuy.album_data.title}
+                  </p>
+                  <p className="m-auto">{albumToBuy.quantity} items</p>
+                  <p className="m-auto">${albumToBuy.price}</p>
+                  <p className="m-auto">${albumToBuy.total}</p>
+                </div>
               </div>
             </div>
           ))}
-        {cart.length !== 0 && <p>Total: {totalPrice}</p>}
-        {cart.length !== 0 && itemsNotAvailable && <h1>Items Not available</h1>}
-        {
-            itemsNotAvailable &&
-            itemsNotAvailable.map((albumToBuy) => (
-                <div key={albumToBuy.id}>
-                  <div className="flex">
-                    <img
-                      src={albumToBuy.album_data.picture_url}
-                      alt=""
-                      className="w-28"
-                    />
-                    <p>
-                      {albumToBuy.album_data.artist} - {albumToBuy.album_data.title}{" "}
-                      x {albumToBuy.quantity} x {albumToBuy.price} ={" "}
-                      {albumToBuy.total}
-                    </p>
-                  </div>
+        {cart.length !== 0 && (
+          <p className="text-right text-2xl">Total: ${totalPrice}</p>
+        )}
+        {cart.length !== 0 && itemsNotAvailable.length !== 0 && (
+          <h1 className="mt-10 border-t">Items not available:</h1>
+        )}
+        {itemsNotAvailable &&
+          itemsNotAvailable.map((albumToBuy) => (
+            <div key={albumToBuy.id} className="bg-gray-200 rounded-lg p-3 mt-5">
+              <div className="flex items-center">
+                <img
+                  src={albumToBuy.album_data.picture_url}
+                  alt=""
+                  className="w-28 h-28"
+                />
+                <div className="grid grid-cols-4 gap-4 align-items-center">
+                  <p className="m-auto">
+                    {albumToBuy.album_data.artist} -{" "}
+                    {albumToBuy.album_data.title}
+                  </p>
+                  <p className="m-auto">{albumToBuy.quantity} items</p>
+                  <p className="m-auto">${albumToBuy.price}</p>
+                  <p className="m-auto">${albumToBuy.total}</p>
                 </div>
-
-            ))
-        }
-        {cart.length === 0 && <p>You don't have items available in your cart yet!</p>}
+              </div>
+            </div>
+          ))}
+        {cart.length === 0 && (
+          <p>You don't have items available in your cart yet!</p>
+        )}
       </div>
       <form className="w-1/3 p-10">
         <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -192,7 +211,7 @@ const Checkout = () => {
               id="email"
               value={buyer.email}
               onChange={(e) => setBuyer({ ...buyer, email: e.target.value })}
-              placeholder="john@doe@company.com"
+              placeholder="wendycarlos@synth.com"
               disabled={cart.length === 0}
               required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -212,7 +231,7 @@ const Checkout = () => {
               onChange={(e) =>
                 setBuyer({ ...buyer, confirmEmail: e.target.value })
               }
-              placeholder="john@doe@company.com"
+              placeholder="wendycarlos@synth.com"
               disabled={!buyer.email || cart.length === 0}
               required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg disabled:bg-gray-200 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -223,9 +242,15 @@ const Checkout = () => {
           type="submit"
           onClick={sendOrder}
           className="text-white bg-blue-700 disabled:bg-gray-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email || cart.length === 0}
+          disabled={
+            !buyer.name ||
+            !buyer.phone ||
+            !buyer.email ||
+            buyer.confirmEmail !== buyer.email ||
+            cart.length === 0
+          }
         >
-          Send Order!
+          Buy
         </button>
       </form>
       <div
@@ -235,21 +260,32 @@ const Checkout = () => {
             : "bg-zinc-200"
         }`}
       >
-        <h1>Preview of your order</h1>
-        <p>Name: {buyer.name}</p>
-        <p>Phone: {buyer.phone}</p>
-        <p>Email: {buyer.email}</p>
-        <p>
-          Your order id is: {orderFeedbackInfo.id}
-          {orderFeedbackInfo.id &&
-            <span>
-              <button onClick={copyOrderId}>
-                <ClipboardDocumentIcon className='h-6 w-6 mr-2 text-blue-500' />
-              </button>
-            </span>
-          }
-        </p>
-        <p>Your order was placed on: {orderFeedbackInfo.date}</p>
+      {
+        orderFeedbackInfo.status === "unfulfilled" &&
+        <div>
+          <h1 className="text-2xl mb-3">Preview of your order info</h1>
+          <p>Name: {buyer.name}</p>
+          <p>Phone: {buyer.phone}</p>
+          <p>Email: {buyer.email}</p>
+        </div>
+      }
+
+      {
+        orderFeedbackInfo.status === "pending" &&
+        <div>
+          <h1 className="text-2xl mb-3">Your order id is ready</h1>
+          <p className="text-2xl">
+            {orderFeedbackInfo.id}
+            {orderFeedbackInfo.id && (
+              <span>
+                <button onClick={copyOrderId}>
+                  <ClipboardDocumentIcon className="ml-5 h-6 w-6 mr-2 text-black-500" />
+                </button>
+              </span>
+            )}
+          </p>
+        </div>
+      }
       </div>
     </div>
   );

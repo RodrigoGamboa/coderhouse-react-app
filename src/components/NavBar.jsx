@@ -18,7 +18,7 @@ const NavBar = () => {
         <Dropdown />
         <Link to="/tracker">
           <button className='flex bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'>
-            <TruckIcon className='h-6 w-6 mr-2 text-blue-500' />
+            <TruckIcon className='h-6 w-6 mr-2 text-black-500' />
             <span>Tracker</span>
           </button>
         </Link>

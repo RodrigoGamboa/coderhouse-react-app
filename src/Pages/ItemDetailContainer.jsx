@@ -72,9 +72,9 @@ const ItemDetail = () => {
       {loading &&
         <div className="w-1/4">
           <div className="w-full aspect-square bg-gray-100"></div>
-          <h2 className="text-2xl mt-3">album.album_data.title</h2>
-          <h1>album.album_data.artist</h1>
-          <p className="text-sm mt-5">album.album_data.description</p>
+          <h2 className="text-2xl mt-3">Title</h2>
+          <h1>Artist</h1>
+          <p className="text-sm mt-5">Description</p>
         </div>
       }
       {!loading && album.album_data &&
@@ -82,6 +82,7 @@ const ItemDetail = () => {
           <img src={album.album_data.picture_url} className="w-100" alt="" />
           <h2 className="text-2xl mt-3">{album.album_data.title}</h2>
           <h1>{album.album_data.artist}</h1>
+          <p>${album.price}.00</p>
           <p className="text-sm mt-5">{album.album_data.description}</p>
         </div>
       }
@@ -100,36 +101,6 @@ const ItemDetail = () => {
           Add to Cart
         </button>
       </div>
-{/*
-      {loading && (
-        <button type="button" className="bg-black-500 ..." disabled>
-          <svg
-            className="animate-spin h-5 w-5 mr-3 ..."
-            viewBox="0 0 24 24"
-          ></svg>
-        </button>
-      )}
-      <style>
-        {`
-            .animate-spin {
-                background: red;
-                animation: spin 1s linear infinite;
-
-                @keyframes spin {
-                  from {
-                    transform: rotate(0deg);
-                  }
-                  to {
-                    transform: rotate(360deg);
-                  }
-                } 
-            }
-            .animation-none {
-                animation: none;
-            }
-        `}
-      </style>
-*/}
     </div>
   );
 };
