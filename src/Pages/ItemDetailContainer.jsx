@@ -10,7 +10,16 @@ const ItemDetail = () => {
   const [loading, setLoading] = useState(true);
   const { cart } = useContext(ContextCart);
   const { setCart } = useContext(ContextCart);
+  const [currentNumItemsCart, setCurrentNumItemsCart] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    cart.map(cartItem => {
+      if (cartItem.id === itemId) {
+        setCurrentNumItemsCart(cartItem.quantity);
+      }
+    })
+  }, [cart])
 
   useEffect(() => {
     serviceAlbums.getAlbum(itemId).then(album => {
@@ -25,19 +34,22 @@ const ItemDetail = () => {
   const handleBtn = (state) => {
     if (state === "-") {
       if (numItems >= 1) {
-        setNumItems(numItems - 1);
+        setNumItems(() => numItems - 1);
       }
       return;
     }
     if (state === "+") {
-      if (numItems < album.stock) {
-        setNumItems(numItems + 1);
+      if (numItems < album.stock && currentNumItemsCart + numItems < album.stock) {
+        setNumItems(() => numItems + 1);
       }
       return;
     }
   };
 
   const handleBuy = () => {
+    if (currentNumItemsCart >= album.stock) {
+      return;
+    }
     if (cart.find(cartAlbum => cartAlbum.id === album.id)) {
       const newArr = [];
       cart.forEach(cartAlbum => {
@@ -52,6 +64,7 @@ const ItemDetail = () => {
     } else {
       setCart([...cart, {...album, quantity: numItems, total: numItems * album.price}]);
     }
+    setNumItems(0);
   };
 
   return (
@@ -67,12 +80,13 @@ const ItemDetail = () => {
       <div className="w-1/4 flex flex-col justify-center align-center">
         {album.stock && <p>{album.stock} items of this product available</p>}
         {!album.stock && <p>This product is currently out of stock!</p>}
+        {currentNumItemsCart > 0 && <p>You currently have {currentNumItemsCart} items of this product in your cart</p>}
         <div>
           <button onClick={() => handleBtn("-")} disabled={numItems === 0}>-</button>
           <span>{numItems}</span>
           <button onClick={() => handleBtn("+")}>+</button>
         </div>
-        <button onClick={() => handleBuy()} disabled={numItems === 0}
+        <button onClick={() => handleBuy()} disabled={numItems === 0 || currentNumItemsCart >= album.stock}
           className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Add to Cart
