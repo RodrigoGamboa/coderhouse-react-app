@@ -41,7 +41,7 @@ const ItemDetail = () => {
     if (cart.find(cartAlbum => cartAlbum.id === album.id)) {
       const newArr = [];
       cart.forEach(cartAlbum => {
-        const newAlbum = {...cartAlbum};
+        const {stock, ...newAlbum} = {...cartAlbum};
         if (cartAlbum.id === album.id) {
           newAlbum.quantity += numItems;
           newAlbum.total = newAlbum.quantity * newAlbum.price;
