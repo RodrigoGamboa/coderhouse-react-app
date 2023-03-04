@@ -8,7 +8,6 @@ const OrderTracker = () => {
     const searchOrder = event => {
         event.preventDefault();
         serviceOrders.getOrder(inputOrder).then(order => {
-            console.log(order)
             setOrder(order);
         }).catch(error => {
             console.log(error);
