@@ -56,12 +56,14 @@ const ItemDetail = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-1/4">
-        <h1>{album.artist}</h1>
-        <h2>{album.title}</h2>
-        <img src={album.pictureUrl} className="w-96" alt="" />
-        <p>{album.description}</p>
-      </div>
+      {album.album_data &&
+        <div className="w-1/4">
+          <h1>{album.album_data.artist}</h1>
+          <h2>{album.album_data.title}</h2>
+          <img src={album.album_data.picture_url} className="w-96" alt="" />
+          <p>{album.album_data.description}</p>
+        </div>
+      }
       <div className="w-1/4 flex flex-col justify-center align-center">
         {album.stock && <p>{album.stock} items of this product available</p>}
         {!album.stock && <p>This product is currently out of stock!</p>}

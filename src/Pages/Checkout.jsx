@@ -95,8 +95,8 @@ const Checkout = () => {
             {cart && cart.map((albumToBuy) => (
                 <div key={albumToBuy.id}>
                     <div className="flex">
-                        <img src={albumToBuy.pictureUrl} alt="" className="w-28" /> 
-                        <p>{albumToBuy.artist} - {albumToBuy.title} x {albumToBuy.quantity} x {albumToBuy.price} ={" "} {albumToBuy.total}
+                        <img src={albumToBuy.album_data.picture_url} alt="" className="w-28" /> 
+                        <p>{albumToBuy.album_data.artist} - {albumToBuy.album_data.title} x {albumToBuy.quantity} x {albumToBuy.price} ={" "} {albumToBuy.total}
                         </p>
                     </div>
                     
