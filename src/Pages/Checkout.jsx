@@ -48,6 +48,17 @@ const Checkout = () => {
       total: totalPrice,
       date: todayUTC
     };
+
+
+    serviceAlbums.checkInventory(order.items).then(inventoryResult => {
+        console.log(inventoryResult);
+        if (inventoryResult.notAvailable.length > 0) {
+            console.log('Hay artículos no disponibles :c');
+        } else {
+            console.log('Todos están disponibles :)');
+            addOrder(order);
+        }
+    });
     /*
     serviceAlbums.checkInventory(order.items).then(availableResult => {
         console.log(availableResult.itemsNotAvailable)
@@ -69,13 +80,13 @@ const Checkout = () => {
     });
    });
    console.log(result);
+*/
   };
 
   const addOrder = order => {
     serviceOrders.addOrder(order).then(orderId => {
         setOrderFeedbackInfo({ status: 'pending', id: orderId, date: order.todayUTC });
     });
-*/
   }
 
   const copyOrderId = () => {
@@ -174,7 +185,7 @@ const Checkout = () => {
             <button
                 type="submit" onClick={sendOrder}
                 className="text-white bg-blue-700 disabled:bg-red-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email}
+                //disabled={!buyer.name || !buyer.phone || !buyer.email || buyer.confirmEmail !== buyer.email}
             >
                 Send Order!
             </button>

@@ -29,16 +29,47 @@ const getAlbum = async itemId => {
     return album;
 };
 
-async function checkInventory (itemId, itemQuantity) {
+const checkInventory = async items => {
+   /*
+   let inventoryResult = {
+    available: {},
+    notAvailable: {}
+   };
+   */
+   let inventoryResult = {
+    available: [],
+    notAvailable: []
+   }
+   const albums = await getAlbums();
+   albums.forEach(album => {
+    items.forEach(itemFromCart => {
+        if (album.id === itemFromCart.id) {
+            if (album.stock >= itemFromCart.quantity) {
+                //inventoryResult.available[album.id] = {...album}
+                inventoryResult.available.push({[album.id]: {...album}})
+            } else {
+                //inventoryResult.notAvailable[album.id] = {...album}
+                inventoryResult.notAvailable.push({[album.id]: {...album}})
+            }
+        }
+    })
+   })
+   //console.log(inventoryResult);
+   return inventoryResult;
+}
+
+/*
+const checkInventory = async (itemId, itemQuantity) => {
     console.log(itemId, itemQuantity)
     const album = await getAlbum(itemId);
     if (album.stock >= itemQuantity) {
-        modifyInventory(itemId, album.stock - itemQuantity);
+        //modifyInventory(itemId, album.stock - itemQuantity);
         return true;
     } else {
         return false;
     }
 }
+*/
 /*
 const checkInventory = async cart => {
     const result = {
@@ -60,9 +91,12 @@ const checkInventory = async cart => {
     return result;
 }
 */
+
+/*
 const modifyInventory = async (albumId, newStock) => {
    const albumDocumentRef = doc(db, 'albums', albumId);
    setDoc(albumDocumentRef, { stock: newStock }, { merge: true });
 }
+*/
 
 export const serviceAlbums = { getAlbum, getAlbums, checkInventory };
