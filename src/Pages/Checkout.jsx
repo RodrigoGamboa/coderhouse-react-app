@@ -48,17 +48,22 @@ const Checkout = () => {
       total: totalPrice,
       date: todayUTC
     };
+    checkInventory(order.items);
+  }
 
 
-    serviceAlbums.checkInventory(order.items).then(inventoryResult => {
-        console.log(inventoryResult);
-        if (inventoryResult.notAvailable.length > 0) {
-            console.log('Hay artículos no disponibles :c');
-        } else {
-            console.log('Todos están disponibles :)');
-            addOrder(order);
-        }
-    });
+
+    const checkInventory = orderItems => {
+        serviceAlbums.checkInventory(orderItems).then(inventoryResult => {
+            console.log(inventoryResult);
+            if (inventoryResult.notAvailable.length > 0) {
+                console.log('Hay artículos no disponibles :c');
+            } else {
+                console.log('Todos están disponibles :)');
+                //addOrder(orderItems);
+            }
+        });
+    }
     /*
     serviceAlbums.checkInventory(order.items).then(availableResult => {
         console.log(availableResult.itemsNotAvailable)
@@ -81,7 +86,6 @@ const Checkout = () => {
    });
    console.log(result);
 */
-  };
 
   const addOrder = order => {
     serviceOrders.addOrder(order).then(orderId => {
