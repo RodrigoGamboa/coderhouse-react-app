@@ -4,13 +4,16 @@ import { useContext } from "react";
 import { ContextCart } from "../App";
 import Dropdown from "./Dropdown";
 import { TruckIcon } from '@heroicons/react/24/solid';
+import logo from '../assets/hiddenrecords.png'
 
 
 const NavBar = () => {
   const { cart } = useContext(ContextCart);
   return (
     <nav className="flex items-center justify-between flex-wrap bg-gray-800 p-6">
-      <Link to="/" className="text-white">Vinyl Store</Link>
+      <Link to="/" className="text-white">
+        <img src={logo} className="h-20" alt="" />
+      </Link>
       <div className="flex items-center gap-2.5">
         <Dropdown />
         <Link to="/tracker">
